@@ -89,5 +89,5 @@ if [ "$PLUGIN_PUSH" = true ]; then
   git config --global user.name "$PLUGIN_GIT_NAME"
   git add .
   git commit -m "$PLUGIN_COMMIT_MESSAGE"
-  ssh-agent bash -c 'ssh-add ~/.ssh/id_rsa; git push origin "$PLUGIN_GITHUB_PAGES_BRANCH"'
+  ssh-agent bash -c "ssh-add ~/.ssh/id_rsa; git push origin \"$PLUGIN_GITHUB_PAGES_BRANCH\""
 fi
