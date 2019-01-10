@@ -4,9 +4,12 @@ FROM bash:5.0.0
 # https://github.com/kubernetes/helm/releases
 ENV HELM_VERSION="v2.12.1"
 
-RUN apk add --no-cache ca-certificates git \
+RUN apk add --no-cache ca-certificates git openssh-client \
     && wget -q https://storage.googleapis.com/kubernetes-helm/helm-${HELM_VERSION}-linux-amd64.tar.gz -O - | tar -xzO linux-amd64/helm > /usr/local/bin/helm \
-    && chmod +x /usr/local/bin/helm
+    && chmod +x /usr/local/bin/helm \
+    && helm init --client-only \
+    && mkdir ~/.ssh \
+    && ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 
 WORKDIR /drone-helm
 COPY entrypoint.sh .
