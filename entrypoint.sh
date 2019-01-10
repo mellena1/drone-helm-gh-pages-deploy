@@ -21,25 +21,32 @@ PLUGIN_COMMIT_MESSAGE=${PLUGIN_COMMIT_MESSAGE:-"[drone.io] Added new charts."}
 PLUGIN_PUSH=${PLUGIN_PUSH:-"true"}
 PLUGIN_BRANCH_DIR=${PLUGIN_BRANCH_DIR:-"droneghpages"}
 if [ -z "$PLUGIN_SSH_KEY" ]; then
-  echo "ERROR: Must set ssh_key!"
+  echo "-- ERROR: Must set ssh_key!"
   exit 1
 fi
 
 function convertGithubToSSH() {
   # Returns $git_repo_url
-  USER=`echo $DRONE_REMOTE_URL | sed -Ene's#https://github.com/([^/]*)/(.*).git#\1#p'`
-  if [ -z "$USER" ]; then
-    echo "-- ERROR:  Could not identify User."
-    exit
-  fi
+  if $(echo $DRONE_REMOTE_URL | grep https://github.com); then
+    USER=`echo $DRONE_REMOTE_URL | sed -Ene's#https://github.com/([^/]*)/(.*).git#\1#p'`
+    if [ -z "$USER" ]; then
+      echo "-- ERROR: Could not identify User."
+      exit 1
+    fi
 
-  REPO=`echo $DRONE_REMOTE_URL | sed -Ene's#https://github.com/([^/]*)/(.*).git#\2#p'`
-  if [ -z "$REPO" ]; then
-    echo "-- ERROR:  Could not identify Repo."
-    exit
+    REPO=`echo $DRONE_REMOTE_URL | sed -Ene's#https://github.com/([^/]*)/(.*).git#\2#p'`
+    if [ -z "$REPO" ]; then
+      echo "-- ERROR: Could not identify Repo."
+      exit 1
+    fi
+  
+    git_repo_url="git@github.com:$USER/$REPO.git"
+  elif $(echo $DRONE_REMOTE_URL | grep "git@github.com"); then
+    git_repo_url="$DRONE_REMOTE_URL"
+  else
+    echo "-- ERROR: Invalid github url."
+    exit 1
   fi
-
-  git_repo_url="git@github.com:$USER/$REPO.git"
 }
 
 # Create the ssh key
