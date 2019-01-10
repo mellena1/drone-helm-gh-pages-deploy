@@ -1,0 +1,16 @@
+kind: pipeline
+name: default
+
+workspace:
+  base: /tmp
+  path: "."
+
+steps:
+- name: Build-image-and-push
+  image: plugins/docker
+  settings:
+    repo: mellena1/drone-helm-gh-pages-deploy
+    autotag: true
+    username: mellena1
+    password:
+      from_secret: password
