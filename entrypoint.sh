@@ -91,7 +91,7 @@ rm -r "$chartsdir"
 
 cd "$ghpages_branch"
 # Remake index.yaml if there are new charts
-if [ charts_added = true ]; then
+if [ "$charts_added" = true ]; then
   rm -f index.yaml
   helm repo index .
 else
