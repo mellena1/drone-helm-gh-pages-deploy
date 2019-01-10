@@ -10,7 +10,7 @@ steps:
   image: plugins/docker
   settings:
     repo: mellena1/drone-helm-gh-pages-deploy
-    autotag: true
+    auto_tag: true
     username: mellena1
     password:
       from_secret: password
