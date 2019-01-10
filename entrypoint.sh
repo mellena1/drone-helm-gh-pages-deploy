@@ -21,7 +21,7 @@ if [ -z "$PLUGIN_SSH_KEY" ]; then
     exit 1
 fi
 
-env
+echo "$PLUGIN_CHARTS_FOLDER"
 
 function convertGithubToSSH() {
     # Returns $git_repo_url
