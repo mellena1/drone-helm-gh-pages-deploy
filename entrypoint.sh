@@ -16,10 +16,12 @@ PLUGIN_OVERWRITE_EXISTING=${PLUGIN_OVERWRITE_EXISTING:-""}
 PLUGIN_COMMIT_MESSAGE=${PLUGIN_COMMIT_MESSAGE:-"[ci] Added new charts."}
 PLUGIN_PUSH=${PLUGIN_PUSH:-"true"}
 PLUGIN_BRANCH_DIR=${PLUGIN_BRANCH_DIR:-"droneghpages"}
-if [ -z $PLUGIN_SSH_KEY ]; then
+if [ -z "$PLUGIN_SSH_KEY" ]; then
     echo "ERROR: Must set ssh_key!"
     exit 1
 fi
+
+env
 
 function convertGithubToSSH() {
     # Returns $git_repo_url
@@ -76,11 +78,11 @@ rm -r $chartsdir
 
 cd $PLUGIN_BRANCH_DIR
 # Remake index.yaml
-rm index.yaml
+rm -f index.yaml
 helm repo index .
 
 # Push to repo
-if [ PLUGIN_PUSH ]; then
+if [ "$PLUGIN_PUSH" ]; then
     git add .
     git commit -m $PLUGIN_COMMIT_MESSAGE
     git push origin $PLUGIN_GITHUB_PAGES_BRANCH
