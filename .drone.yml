@@ -1,10 +1,6 @@
 kind: pipeline
 name: default
 
-workspace:
-  base: /tmp
-  path: "."
-
 steps:
 - name: Build-image-and-push
   image: plugins/docker
