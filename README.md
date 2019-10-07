@@ -31,3 +31,4 @@ docker run --rm \
 | git_name | PLUGIN_GIT_NAME | git name to make the commit with | drone |
 | commit_message | PLUGIN_COMMIT_MESSAGE | commit message to make commit with | [drone.io] Added new charts. |
 | push | PLUGIN_PUSH | whether to push or not | false |
+
